@@ -12,6 +12,7 @@ namespace core\lib;
 class Upload{
 
     public $config;
+    public static $errmsg;
 
     /**
      * 构造方法
@@ -38,34 +39,45 @@ class Upload{
         // 是否选择文件
         if (!isset($_FILES) || !$_FILES)
         {
-            error('请选择要上传的文件');
+            self::$errmsg = '请选择要上传的文件';
+            return FALSE;
         }
 
         // 文件类型限制
         $file_name = explode(".", $_FILES[$name]["name"]);
         $extension = end($file_name);
-        in_array($extension, $config['allowed_type']) || error('不支持上传此类型的文件');
+
+        if (!in_array($extension, $config['allowed_type']))
+        {
+            self::$errmsg = '不支持上传此类型的文件';
+            return FALSE;
+        }
 
         switch ($_FILES[$name]["error"])
         {
             case 1:
-                error('UPLOAD_ERR_INI_SIZE');
+                self::$errmsg = 'UPLOAD_ERR_INI_SIZE';
                 break;
             case 2:
-                error('UPLOAD_ERR_FORM_SIZE');
+                self::$errmsg = 'UPLOAD_ERR_FORM_SIZE';
                 break;
             case 3:
-                error('UPLOAD_ERR_PARTIAL');
+                self::$errmsg = 'UPLOAD_ERR_PARTIAL';
                 break;
             case 4:
-                error('UPLOAD_ERR_NO_FILE');
+                self::$errmsg = 'UPLOAD_ERR_NO_FILE';
                 break;
             case 6:
-                error('UPLOAD_ERR_NO_TMP_DIR ');
+                self::$errmsg = 'UPLOAD_ERR_NO_TMP_DIR';
                 break;
             case 7:
-                error('UPLOAD_ERR_CANT_WRITE');
+                self::$errmsg = 'UPLOAD_ERR_CANT_WRITE';
                 break;
+        }
+
+        if ($_FILES[$name]["error"] != 0)
+        {
+            return FALSE;
         }
 
         // 文件大小限制
@@ -73,14 +85,19 @@ class Upload{
 
         if ($file_size > $config['limit_size'] * 1024)
         {
-            error("当前文件大小{$file_size}M超过上传限制{$config['limit_size']}M");exit();
+            self::$errmsg = "当前文件大小{$file_size}M超过上传限制{$config['limit_size']}M";
+            return FALSE;
         }
 
         // 上传文件
         $new_file_name = md5(time() . mt_rand(1000, 9999));
-        $status = move_uploaded_file($_FILES[$name]["tmp_name"], "{$config['save_path']}{$new_file_name}.{$extension}");
-        $status || error('上传路径出错');
 
-        return $status;
+        if (!move_uploaded_file($_FILES[$name]["tmp_name"], "{$config['save_path']}{$new_file_name}.{$extension}"))
+        {
+            self::$errmsg = '上传路径出错';
+            return FALSE;
+        }
+
+        return TRUE;
     }
 }
