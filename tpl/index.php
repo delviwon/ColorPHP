@@ -4,40 +4,20 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>Lewei SYS</title>
 
     <!-- Bootstrap -->
     <link href="<?php echo __PUBLIC__?>bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Microsoft YaHei";
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-
-
-
-
-<div class="container-fluid">
-
-    <div class="page-header">
-        <h1>文件上传 <small>File Upload</small></h1>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-
-            <form role="form" action="<?php echo get_url('index/upload')?>" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="image">缩略图</label>
-                    <input name="image" type="file" id="image">
-                </div>
-                <button type="submit" class="btn btn-primary">立即上传</button>
-            </form>
-
-        </div>
-    </div>
-
-</div>
-
-
-
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

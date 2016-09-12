@@ -97,7 +97,7 @@ class Color{
         // 加载函数文件
         foreach ($function as $v)
         {
-            $function_file = __COLOR__ . '/' . MODULE ."/common/{$v}.func.php";
+            $function_file = __COLOR__ . '/' . MODULE ."/common/function/{$v}.func.php";
             load_file($function_file);
         }
     }

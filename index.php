@@ -63,7 +63,7 @@ else
  * 引入核心文件
  *---------------------------------------------------------------
  */
-include __CORE__ . '/common/common.func.php';
+include __CORE__ . '/common/function/common.func.php';
 include __CORE__ . '/Color.php'; 
 
 /*
